@@ -1,14 +1,61 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Stencil Component Starter</title>
 
-    <script type="module" src="/build/stencil-web-component-example.esm.js"></script>
-    <script nomodule src="/build/stencil-web-component-example.js"></script>
-  </head>
-  <body>
-    <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Stencil Component Starter</title>
+
+  <script type="module" src="/build/stencil-web-component-example.esm.js"></script>
+  <script nomodule src="/build/stencil-web-component-example.js"></script>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/calcite-components/1.9.2/calcite.css" />
+  <script type="module" src="https://js.arcgis.com/calcite-components/1.9.2/calcite.esm.js"></script>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.28/"></script>
+
+  <script>
+    require(['esri/config', 'esri/identity/OAuthInfo', 'esri/identity/IdentityManager', 'esri/WebMap', 'esri/views/MapView'], function (
+      esriConfig,
+      OAuthInfo,
+      esriId,
+      WebMap,
+      MapView,
+    ) {
+      const myComponent = document.querySelector('my-component');
+
+      // Register OAuth
+      esriConfig.portalUrl = 'https://arcgis.com';
+      const info = new OAuthInfo({
+        appId: '09kf6ZJbLyQQzlSn',
+        flowType: 'auto', // default that uses two-step flow
+        popup: false,
+      });
+      esriId.registerOAuthInfos([info]);
+
+      // // Create web map
+      // const webmap = new WebMap({
+      //   portalItem: {
+      //     id: 'e01574144d2e444f8f59cba1e15dfb49',
+      //   },
+      // });
+
+      // // Create map view
+      // const view = new MapView({
+      //   map: webmap,
+      //   center: [-92.264214, 34.734559], // Longitude, latitude
+      //   zoom: 10, // Zoom level
+      //   container: 'viewDiv', // Div element
+      // });
+
+      // // Pass map view to symbology component
+      // myComponent.view = view;
+    });
+  </script>
+</head>
+
+<body>
+  <my-component></my-component>
+</body>
+
 </html>
