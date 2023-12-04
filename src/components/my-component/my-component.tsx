@@ -1,5 +1,9 @@
 import { Component, Prop,  State, h } from '@stencil/core';
-import { importEsri } from '../../utils/utils';
+// import { importEsri } from '../../utils/utils';
+import esriConfig from 'esri/config'
+import Portal from 'esri/portal/Portal'
+import {watch} from 'esri/core/reactiveUtils'
+import esriId from 'esri/identity/IdentityManager'
 
 @Component({
   tag: 'my-component',
@@ -29,8 +33,8 @@ export class MyComponent {
   }
 
   async connectPortal(): Promise<void> {
-    const esriConfig = await importEsri('esri/config');
-    const Portal = await importEsri('esri/portal/Portal');
+    // const esriConfig = await importEsri('esri/config');
+    // const Portal = await importEsri('esri/portal/Portal');
     const portal = new Portal({
       url: esriConfig.portalUrl,
     });
@@ -39,7 +43,7 @@ export class MyComponent {
     this.portal = portal;
 
     // Watch for user changes
-    const { watch } = await importEsri('esri/core/reactiveUtils');
+    // const { watch } = await importEsri('esri/core/reactiveUtils');
     this.portal.addHandles(
       watch(
         () => this.portal?.user,
@@ -50,7 +54,7 @@ export class MyComponent {
   }
 
   async onSignInClick(): Promise<void> {
-    const esriId: __esri.IdentityManager = await importEsri('esri/identity/IdentityManager');
+    // const esriId: __esri.IdentityManager = await importEsri('esri/identity/IdentityManager');
     await esriId.getCredential(this.portal.url);
     await this.connectPortal();
   }
