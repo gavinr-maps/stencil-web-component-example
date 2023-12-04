@@ -9,10 +9,17 @@ function requireModule<T>(modulePath: string): Promise<T> {
 
 export async function importEsri(modulePath: string): Promise<any> {
   const relativeModulePath = modulePath.replace(/^(@arcgis\/core\/|esri\/)/, '');
+
+  /**
+   * Removes the partial path information from the import statement, thus
+   * preventing webpack from bundling the entire Esri library.
+   * @see https://webpack.js.org/api/module-methods/#dynamic-expressions-in-import
+   */
+  const fullModulePath = `${amd ? 'esri' : '@arcgis/core'}/${relativeModulePath}`;
   if (amd) {
-    return requireModule(`esri/${relativeModulePath}`);
+    return requireModule(fullModulePath);
   }
-  const module = await import(`@arcgis/core/${relativeModulePath}`);
+  const module = await import(fullModulePath);
   if (module.default) {
     return module.default;
   }
