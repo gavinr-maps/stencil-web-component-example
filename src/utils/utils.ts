@@ -19,7 +19,11 @@ export async function importEsri(modulePath: string): Promise<any> {
   if (amd) {
     return requireModule(fullModulePath);
   }
-  const module = await import(fullModulePath);
+
+  /**
+   * @see https://webpack.js.org/api/module-methods/#webpackignore
+   */
+  const module = await import(/* webpackIgnore: true */ fullModulePath);
   if (module.default) {
     return module.default;
   }
