@@ -12,7 +12,11 @@ export async function importEsri(modulePath: string): Promise<any> {
   if (amd) {
     return requireModule(`esri/${relativeModulePath}`);
   }
-  const module = await import(`@arcgis/core/${relativeModulePath}`);
+
+  /**
+   * @see https://webpack.js.org/api/module-methods/#webpackignore
+   */
+  const module = await import(/* webpackIgnore: true */ `@arcgis/core/${relativeModulePath}`);
   if (module.default) {
     return module.default;
   }
